@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.p2p.car.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.p2p.car.model.UserBean" >
+    <id column="userId" property="userId" jdbcType="VARCHAR" />
+    <result column="userName" property="userName" jdbcType="VARCHAR" />
+    <result column="userPassword" property="userPassword" jdbcType="VARCHAR" />
+    <result column="userPhone" property="userPhone" jdbcType="VARCHAR" />
+    <result column="userEmail" property="userEmail" jdbcType="VARCHAR" />
+    <result column="userSex" property="userSex" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    userId,userName,userPassword,userPhone,userEmail,userSex
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from users
+    where userId = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from users
+    where userId = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.p2p.car.model.UserBean" >
+    insert into users (userId, userName, userPassword, userPhone, userEmail, userSex
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, #{userSex,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.p2p.car.model.UserBean" >
+    insert into users
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="userName != null" >
+        userName,
+      </if>
+      <if test="userPassword != null" >
+        userPassword,
+      </if>
+      <if test="userPhone != null" >
+        userPhone,
+      </if>
+      <if test="userEmail != null" >
+        userEmail,
+      </if>
+      <if test="userSex != null" >
+        userSex,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null" >
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null" >
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null" >
+        #{userSex,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.p2p.car.model.UserBean" >
+    update users
+    <set >
+      <if test="userName != null" >
+        userName = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null" >
+        userPassword = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        userPhone =#{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null" >
+        userEmail =#{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null" >
+        userSex =#{userSex,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where userId = #{userId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.p2p.car.model.UserBean" >
+    update users
+    set userName = #{userName,jdbcType=VARCHAR},
+      userPassword = #{userPassword,jdbcType=VARCHAR}
+    where userId = #{userId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getAll" resultMap="BaseResultMap">
+  	SELECT * FROM users
+  </select>
+</mapper>

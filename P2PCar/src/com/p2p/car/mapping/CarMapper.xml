@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.p2p.car.dao.CarMapper" >
+  <resultMap id="carResultMap" type="com.p2p.car.model.CarBean" >
+    <id column="carId" property="carId" jdbcType="VARCHAR" />
+    <result column="carName" property="carName" jdbcType="VARCHAR" />
+    <result column="carImage" property="carImage" jdbcType="VARCHAR" />
+    <result column="carGearboxes" property="carGearboxes" jdbcType="VARCHAR" />
+    <result column="userId" property="userId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Car_Column_List" >
+    carId,carName,carImage,carGearboxes
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="carResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Car_Column_List" />
+    from car
+    where carId = #{carId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from car
+    where carId = #{carId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.p2p.car.model.CarBean" >
+    insert into car (carId,carName,carImage,carGearboxes,ownerid)
+    values (#{carId,jdbcType=VARCHAR}, #{carName,jdbcType=VARCHAR}, #{carImage,jdbcType=VARCHAR}, #{carGearboxes,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.p2p.car.model.CarBean" >
+    insert into car
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="carId != null" >
+        carId,
+      </if>
+      <if test="carName != null" >
+        carName,
+      </if>
+      <if test="carImage != null" >
+        carImage,
+      </if>
+      <if test="carGearboxes != null" >
+        carGearboxes,
+      </if>
+      <if test="userId != null" >
+        ownerid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="carId != null" >
+        #{carId,jdbcType=VARCHAR},
+      </if>
+      <if test="carName != null" >
+        #{carName,jdbcType=VARCHAR},
+      </if>
+      <if test="carImage != null" >
+        #{carImage,jdbcType=VARCHAR},
+      </if>
+      <if test="carGearboxes != null" >
+        #{carGearboxes,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.p2p.car.model.UserBean" >
+    update car
+    <set >
+      <if test="carName != null" >
+        carName = #{carName,jdbcType=VARCHAR},
+      </if>
+      <if test="carImage != null" >
+        carImage = #{carImage,jdbcType=VARCHAR},
+      </if>
+      <if test="carGearboxes != null" >
+        carGearboxes =#{carGearboxes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where carId = #{carId,jdbcType=VARCHAR}
+  </update>
+  
+<!--   <update id="updateByPrimaryKey" parameterType="com.p2p.car.model.UserBean" > -->
+<!--     update car -->
+<!--     set userName = #{userName,jdbcType=VARCHAR}, -->
+<!--       userPassword = #{userPassword,jdbcType=VARCHAR} -->
+<!--     where userId = #{userId,jdbcType=VARCHAR} -->
+<!--   </update> -->
+  
+  <select id="getAllCar" resultMap="carResultMap" parameterType="java.lang.String" >
+  	SELECT * FROM car where ownerid = #{userId,jdbcType=VARCHAR}
+  </select>
+</mapper>
